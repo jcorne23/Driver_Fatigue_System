@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Monitor Feed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+            color: #00FF00;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            overflow-y: scroll;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin-bottom: 5px;
+            word-wrap: break-word;
+            text-shadow: 0 0 5px #00FF00;
+            font-size: 1.1em;
+        }
+        h1 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #00FF00;
+            text-shadow: 0 0 8px #00FF00;
+            border-bottom: 1px solid #00FF00;
+            padding-bottom: 5px;
+        }
+        canvas {
+            background-color: #111;
+            border: 1px solid #00FF00;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="{{ url_for('static', filename='js/chart.umd.js') }}"></script>
+</head>
+<body>
+    <h1>🚗 Driver Monitor Feed</h1>
+
+    <div id="feed"></div>
+
+    <h2>📈 Fatigue Score Over Time</h2>
+    <canvas id="scoreChart" width="400" height="200"></canvas>
+
+    <script>
+        const feed = document.getElementById('feed');
+
+        var ctx = document.getElementById('scoreChart').getContext('2d');
+        var scoreChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Fatigue Score',
+                    data: [],
+                    fill: false,
+                    borderColor: 'rgb(0, 255, 0)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    x: { title: { display: true, text: 'Time' } },
+                    y: { title: { display: true, text: 'Score' }, suggestedMin: 0, suggestedMax: 100 }
+                }
+            }
+        });
+
+        function updateFeed(messages) {
+            feed.innerHTML = '';
+            messages.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = 'message';
+                div.innerText = msg;
+                feed.appendChild(div);
+            });
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        function updateChart(scores) {
+            scoreChart.data.labels = scores.map(s => s.time);
+            scoreChart.data.datasets[0].data = scores.map(s => s.score);
+            scoreChart.update();
+        }
+
+        function fetchData() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    updateFeed(data.messages);
+                    updateChart(data.fatigue_scores);
+                });
+        }
+        function checkEmergency() {
+            fetch('/check_emergency')
+              .then(response => response.json())
+             .then(data => {
+                    if (data.emergency) {
+                window.location.href = '/emergency';  // Redirect if emergency is active
+            }
+        })
+        .catch(error => console.error('Error checking emergency:', error));
+}
+
+
+// Check for emergency every 2 seconds
+setInterval(checkEmergency, 2000);
+
+        setInterval(fetchData, 2000);
+        window.onload = fetchData;
+    </script>
+</body>
+</html>
