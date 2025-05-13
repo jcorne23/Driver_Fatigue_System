@@ -1,0 +1,3 @@
+- [Engineering Notebook](docs/engineeringnotebook.md)
+- [Design Document (PDF)](docs/design_document.pdf)
+- [Final Paper (PDF)](docs/final_report.pdf)
