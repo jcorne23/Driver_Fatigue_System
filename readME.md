@@ -1,3 +1,5 @@
+An integrated driver monitoring system using OpenCV and dlib on a Raspberry Pi to track fatigue through eye and mouth aspect ratios, calculating a running fatigue score based on blink and yawn patterns. The ESP32-CAM streams live video over a custom webserver and displays real-time fatigue data via OLED. An onboard MQ3 sensor supports alcohol detection through a guided breathalyzer test, calibrated using controlled samples and baseline readings. A Flask server coordinates system behavior and enables mobile-based interaction, including optional emergency alert triggers—no internet required.
+
 - [Design Document (PDF)](docs/design_document.pdf)
 - [Engineering Notebook](docs/engineering_notebook.md)
 - [Final Paper (PDF)](docs/final_report.pdf)
