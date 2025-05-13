@@ -1,4 +1,6 @@
 - [Engineering Notebook](docs/engineering_notebook.md)
 - [Design Document (PDF)](docs/design_document.pdf)
 - [Final Paper (PDF)](docs/final_report.pdf)
-- [click here to watch it on Google Drive](https://drive.google.com/file/d/YOURFILEID/view)
+- [Video Demo 1](https://drive.google.com/file/d/1akUV6YvoVE6YVaj2TsC6vIiu5VjOl5T-/view?usp=sharing)
+- [Video Demo 2](https://drive.google.com/file/d/1_dD5bf3DfNFZJkOF3wCcVmGohEKaDvxr/view?usp=sharing)
+
